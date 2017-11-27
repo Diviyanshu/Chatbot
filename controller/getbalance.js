@@ -26,3 +26,28 @@ function handlebalanceResponse(message, session, username) {
                    
     
 }
+
+
+exports.deleteFavouriteFood = function deleteFavouriteFood(session,username,favouriteFood){
+    var url  = 'https://BankDivi.azurewebsites.net/tables/banktable';
+
+
+    rest.getFavouriteFood(url,session, username,function(message,session,username){
+     var   allFoods = JSON.parse(message);
+
+        for(var i in allFoods) 
+{
+            if (allFoods[i].favouriteFood === favouriteFood && allFoods[i].username === username) {
+
+                console.log(allFoods[i]);
+
+                rest.deleteFavouriteFood(url,session,username,favouriteFood, allFoods[i].id ,handleDeletedFoodResponse)
+
+            }
+        }
+
+
+    });
+
+
+};

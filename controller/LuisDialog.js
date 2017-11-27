@@ -1,5 +1,7 @@
 var builder = require('botbuilder');
 var getb = require('./getbalance');
+var currency = require('./currencycard');
+
 
 exports.startDialog = function (bot) {
 
@@ -31,74 +33,28 @@ exports.startDialog = function (bot) {
         matches: 'GetBalance'
     });
 
-    bot.dialog('DeleteFavourite', [
-        function (session, args, next) {
-            session.dialogData.args = args || {};
-            if (!session.conversationData["username"]) {
-                builder.Prompts.text(session, "Enter a username to setup your account.");
-            } else {
-                next(); // Skip if we already have this info.
-            }
-        },
-        function (session, results,next) {
-       // if (!isAttachment(session)) {
+bot.dialog('GetCurrency', function (session, args) {
 
-            session.send("You want to delete one of your favourite foods.");
-
+       
             // Pulls out the food entity from the session if it exists
-            var foodEntity = builder.EntityRecognizer.findEntity(session.dialogData.args.intent.entities, 'food');
+      
 
             // Checks if the for entity was found
-            if (foodEntity) {
-                session.send('Deleting \'%s\'...', foodEntity.entity);
-                getb.deleteFavouriteFood(session,session.conversationData['username'],foodEntity.entity); //<--- CALLL WE WANT
-            } else {
-                session.send("No food identified! Please try again");
-            
-        }
+       
+        session.send('Looking for restaurants which sell...');
+        currency.displaycurr(session);
+         
+        
 
-    }
-    
-    ]).triggerAction({
-        matches: 'DeleteFavourite'
-
-    });
-
-    bot.dialog('GetCalories', function (session, args) {
-        if (!isAttachment(session)) {
-
-            // Pulls out the food entity from the session if it exists
-            var foodEntity = builder.EntityRecognizer.findEntity(args.intent.entities, 'food');
-
-            // Checks if the for entity was found
-            if (foodEntity) {
-                session.send('Calculating calories in %s...', foodEntity.entity);
-                // Insert logic here later
-
-            } else {
-                session.send("No food identified! Please try again");
-            }
-        }
     }).triggerAction({
-        matches: 'GetCalories'
+        matches: 'GetCurrency'
     });
 
+    
 
     
 
 
-    bot.dialog('LookForFavourite', [
-        // Insert logic here later
-    ]).triggerAction({
-        matches: 'LookForFavourite'
-    });
-    
-
-    bot.dialog('WelcomeIntent', [
-        // Insert logic here later
-    ]).triggerAction({
-        matches: 'WelcomeIntent'
-    });
 }
 
 // Function is called when the user inputs an attachment
