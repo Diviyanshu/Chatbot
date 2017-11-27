@@ -41,10 +41,13 @@ bot.dialog('GetCurrency', function (session, args) {
         if (baseCurrency && currency) {
             // Pulls out the food entity from the session if it exists
       
-            session.send('Looking for restaurants which sell...');
+            session.send('fetching latest rates...');
+            currencyexp.displaycurrency(session,baseCurrency.entity, currency.entity);
         }
-        currencyexp.displaycurr(session,baseCurrency.entity, currency.entity);
-         
+        
+        else {
+            session.send("No currency identified! Please try again");
+        }
         
 
     }).triggerAction({
