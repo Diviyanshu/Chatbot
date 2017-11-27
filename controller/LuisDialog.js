@@ -1,6 +1,6 @@
 var builder = require('botbuilder');
 var getb = require('./getbalance');
-var currency = require('./currencycard');
+var currencyexp = require('./currencycard');
 
 
 exports.startDialog = function (bot) {
@@ -34,15 +34,16 @@ exports.startDialog = function (bot) {
     });
 
 bot.dialog('GetCurrency', function (session, args) {
-
-       
+        var baseCurrency = builder.EntityRecognizer.findEntity(args.intent.entities, 'basecurrency');
+        var currency = builder.EntityRecognizer.findEntity(args.intent.entities, 'currency');
+        
+        // Checks if the for entity was found
+        if (baseCurrency && currency) {
             // Pulls out the food entity from the session if it exists
       
-
-            // Checks if the for entity was found
-       
-        session.send('Looking for restaurants which sell...');
-        currency.displaycurr(session);
+            session.send('Looking for restaurants which sell...');
+        }
+        currencyexp.displaycurr(session,baseCurrency.entity, currency.entity);
          
         
 

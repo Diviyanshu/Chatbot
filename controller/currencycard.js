@@ -2,22 +2,27 @@ var rest = require('../API/Restclient');
 var builder = require('botbuilder');
 
 //Calls 'getcurrency' in RestClient.js with 'getFoodNutrition' as callback to get ndbno of food
-exports.displaycurr = function getcurrency(session){
-    var url = "https://api.fixer.io/latest?base=USD";
+exports.displaycurr = function getcurrency(session, baseCurrency, currency){
+    var url = "https://api.fixer.io/latest?base=" + baseCurrency ;
 
-    rest.requestcurrency(url, session, displaycurr);
+    rest.requestcurrency(url, session, displaycurr, currency);
 }
 
 
-function displaycurr(message, session) {
+function displaycurr(message, session, currency) {
     //var attachment = [];
     var data = JSON.parse(message);
     
-    //For each restaurant, add herocard with name, address, image and url in attachment
-  
-       
-    var base1 = data.base;
-    session.send(base1);
+    var z1= currency.toUpperCase();
+    session.send(z1);
+    
+    var base = data.rates[z1];
+    var tr = JSON.stringify(base);
+    
+    
+    
+    session.send("true");
+    session.send(tr);
         
 
     
