@@ -41,7 +41,7 @@ bot.dialog('GetCurrency', function (session, args) {
         if (baseCurrency && currency) {
             // Pulls out the food entity from the session if it exists
       
-            session.send('fetching latest rates...');
+           // session.send('fetching latest rates...');
             currencyexp.displaycurrency(session,baseCurrency.entity, currency.entity);
         }
         

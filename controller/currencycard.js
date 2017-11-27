@@ -17,8 +17,10 @@ function displaycurrency(message, session, currency, basecurrency) {
     var upperBaseCurrency =  basecurrency.toUpperCase();
     
     var result = data.rates[upperCurrency];
+    
     var result_String = JSON.stringify(result);
-    var fin = "One " + upperBaseCurrency + " is equal to " + result_String + " "+ upperCurrency;
+    var rounded_result = Math.round(result_String * 100) / 100;
+    var fin = "One " + upperBaseCurrency + " is equal to " + rounded_result + " "+ upperCurrency;
     
     
     
