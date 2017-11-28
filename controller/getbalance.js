@@ -1,22 +1,27 @@
 var rest = require('../API/Restclient');
 
-exports.displaybalance = function getbalance(session, username){
+exports.displaybalance = function getbalance(session, balance){
     var url = 'https://BankDivi.azurewebsites.net/tables/banktable';
-    
-    rest.getbalance(url, session, handlebalanceResponse)
+    console.log("-------------------");
+    console.log(typeof balance);
+    rest.getbalance(url, session, handlebalanceResponse, balance)
 };
 
 
-function handlebalanceResponse(message, session) {
+function handlebalanceResponse(message, session, balance) {
     var balResponse = JSON.parse(message);
+    var result_balance;
+    if (balance.toLowerCase() == "checking") {   result_balance = balResponse[0].checking; 
+        session.send("Divi, your %s balance is:$ %s ", balance, result_balance); 
+    
+    }
+    else if (balance.toLowerCase() == "savings")   {  result_balance = balResponse[0].savings;  
+        session.send("Divi, your %s balance is: $ %s ", balance, result_balance);
+    }
+    else {session.send("neither");}
     
     
-    
-    var result_balance = balResponse[0].balance;
-    session.send("Divi, your balance is: %s", result_balance);
-        //Convert to lower case whilst doing comparison to ensure the user can type whatever they like
-      
-            //Add a comma after all favourite foods unless last one
+       
              
             
               

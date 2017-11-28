@@ -2,7 +2,7 @@ var builder = require('botbuilder');
 var getb = require('./getbalance');
 var gett = require('./gettransaction');
 var currencyexp = require('./currencycard');
-
+var getf = require('./getfunds');
 
 exports.dialog1 = function (bot) {
 
@@ -29,7 +29,22 @@ exports.startDialog = function (bot) {
         function (session, args, next) {
             session.dialogData.args = args || {};        
             session.send("Retrieving balance");
-            getb.displaybalance(session);
+            var checking = builder.EntityRecognizer.findEntity(args.intent.entities, 'checking');
+            var savings = builder.EntityRecognizer.findEntity(args.intent.entities, 'saving');
+            console.log (checking);
+            if (checking) {
+                session.send("Retrieving balance");
+                console.log(checking.entity);
+                getb.displaybalance(session,checking.entity);
+
+            } 
+            
+            else if (savings) {
+                getb.displaybalance(session,savings.entity); }
+            
+            else {"Sorry, could not identifi entity. Please try again";}
+            
+            
         },
     ]).triggerAction({
         matches: 'GetBalance'
@@ -76,15 +91,56 @@ exports.startDialog = function (bot) {
     bot.dialog('WelcomeMessage', [
         function (session, args) {
             session.dialogData.args = args || {};        
-            session.send("Hi, welcome to Contoso banking , We can help you with your everyday banking activites inclding" + "\n" + "jak");
-            session.send("Hi");
+            session.send("Hello Divi, welcome to Contoso banking ,We can help you with your daily banking tasks including: \n\n - - - - - - - - - - - - - \n\n  - Checking your account balances \n\n - Transferring funds \n\n  - Getting information on the latest currency rates  "  );
+            //session.send("Hi");
+            //session.send("hello\n\nworld");
            
         },
        
     ]).triggerAction({
         matches: 'WelcomeMessage'
     });
-    
+
+
+
+    bot.dialog('SetupTransfer', [
+       
+            
+            function (session) {
+            session.send("Welcome to the dinner reservation.");
+            builder.Prompts(session, "Please provide a date to schedule the payments: ");
+            },       
+            function (session, results) {
+                session.dialogData.date = results.response;
+                builder.Prompts.text(session, "Who's will this payment be for?");
+            },
+
+            function (session, results) {
+                session.dialogData.payee = results.response;
+        
+                // Process request and display reservation details
+                
+                builder.Prompts.text(session, "how much in payments?");
+            },
+            function (session, results) {
+                session.dialogData.funds = results.response;
+                session.send('setting up autmoatic payements...');
+                getf.sendfunds(session,session.dialogData.funds, session.dialogData.payee, session.dialogData.date); // <-- LINE WE WANT
+                session.endDialog();
+            }
+        ])
+            //var funds = builder.EntityRecognizer.findEntity(session.dialogData.args.intent.entities, 'funds');
+            //var payee = builder.EntityRecognizer.findEntity(session.dialogData.args.intent.entities, 'payee');
+            //var date = builder.EntityRecognizer.findEntity(session.dialogData.args.intent.entities, 'date');
+            
+                        
+            
+        
+  
+    .triggerAction({
+        matches: 'SetupTransfer'
+    });
+
 
 
 }
@@ -101,5 +157,4 @@ function isAttachment(session) {
         return false;
     }
 }
-
 

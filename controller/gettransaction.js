@@ -28,7 +28,13 @@ function handleTransactionResponse(message, session, date1) {
     // Print all favourite foods for the user that is currently logged in
     //var card = new builder.ReceiptCard();
     //card.items = allTransactions;
-    var sendingString = ("Your transactions on %s are: %s",date1, JSON.stringify(allTransactions)); 
+    var sendingString = "";
+    for (var i in allTransactions) {
+       
+        (sendingString += (date1 + ":   "+  JSON.stringify(allTransactions[i]) + "\n\n" ));
+
+    }
+     
     
     
     console.log(sendingString);
