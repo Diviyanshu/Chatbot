@@ -1,5 +1,6 @@
 var builder = require('botbuilder');
 var getb = require('./getbalance');
+var gett = require('./gettransaction');
 var currencyexp = require('./currencycard');
 
 
@@ -12,8 +13,8 @@ exports.startDialog = function (bot) {
     bot.dialog('GetBalance', [
         function (session, args, next) {
             session.dialogData.args = args || {};        
-            if (!session.conversationData["username"]) {
-                builder.Prompts.text(session, "Enter a username to setup your account.");                
+            if (!session.conversationData["date"]) {
+                builder.Prompts.text(session, "Enter a date to setup your account.");                
             } else {
                 next(); // Skip if we already have this info.
             }
@@ -22,18 +23,34 @@ exports.startDialog = function (bot) {
             //if (!isAttachment(session)) {
 
                 if (results.response) {
-                    session.conversationData["username"] = results.response;
+                    session.conversationData["date"] = results.response;
                 }
 
                 session.send("Retrieving data");
-                getb.displaybalance(session, session.conversationData["username"]);  // <---- THIS LINE HERE IS WHAT WE NEED 
+                getb.displaybalance(session, session.conversationData["date"]);  // <---- THIS LINE HERE IS WHAT WE NEED 
             
         }
     ]).triggerAction({
         matches: 'GetBalance'
     });
 
-bot.dialog('GetCurrency', function (session, args) {
+
+
+    bot.dialog('LastTransaction', [
+        function (session, args, next) {
+            session.dialogData.args = args || {};   
+            var Entdate = builder.EntityRecognizer.findEntity(args.intent.entities, 'date');     
+            session.send("Retrieving your transactions...");
+            gett.displaytransaction(session, Entdate.entity);
+        },
+        
+    
+    ]).triggerAction({
+        matches: 'LastTransaction'
+    });
+
+
+    bot.dialog('GetCurrency', function (session, args) {
         var baseCurrency = builder.EntityRecognizer.findEntity(args.intent.entities, 'basecurrency');
         var currency = builder.EntityRecognizer.findEntity(args.intent.entities, 'currency');
         
