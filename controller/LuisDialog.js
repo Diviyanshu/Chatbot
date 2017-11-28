@@ -4,11 +4,26 @@ var gett = require('./gettransaction');
 var currencyexp = require('./currencycard');
 
 
+exports.dialog1 = function (bot) {
+
+    bot.dialog('greetings', 
+    // Step 1
+    function (session) {
+        builder.Prompts.text(session, 'Hi! What is your name?');
+    })
+
+
+}
+
+
 exports.startDialog = function (bot) {
-
+    
     var recognizer = new builder.LuisRecognizer('https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/42d8af00-4f36-4a5c-96bb-b2fefa15b63a?subscription-key=6938febe65964e5eb0f53847d20e58a9&verbose=true&timezoneOffset=0&q=');
-
+    
     bot.recognizer(recognizer);
+
+
+    
 
     bot.dialog('GetBalance', [
         function (session, args, next) {

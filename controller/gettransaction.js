@@ -1,12 +1,12 @@
 var rest = require('../API/Restclient');
 
-exports.displaytransaction = function gettransacton(session, date){
-    var url = 'https://BankDivi.azurewebsites.net/tables/banktable';
+exports.displaytransaction = function gettransaction(session, date){
+    var url = 'https://BankDivi.azurewebsites.net/tables/transactions';
     
-    rest.gettransacton(url, session, date, handleTransactionResponse)
+    rest.gettransaction(url, session, date, handleTransactionResponse)
 };
 
-function handleTransactionResponse(message, session, date) {
+function handleTransactionResponse(message, session, date1) {
     var dateResponse = JSON.parse(message);
     var allTransactions = [];
     for (var index in dateResponse) {
@@ -14,7 +14,7 @@ function handleTransactionResponse(message, session, date) {
         var RevicedTransactions = dateResponse[index].TransactionDescription;
 
         //Convert to lower case whilst doing comparison to ensure the user can type whatever they like
-        if (date.toLowerCase() === dateRecived.toLowerCase()) {
+        if (date1.toLowerCase() === dateRecived.toLowerCase()) {
             //Add a comma after all favourite foods unless last one
             if(dateResponse.length - 1) {
                 allTransactions.push(RevicedTransactions);
@@ -26,6 +26,13 @@ function handleTransactionResponse(message, session, date) {
     }
     
     // Print all favourite foods for the user that is currently logged in
-    session.send("%s, your favourite foods are: %s", date, allTransactions);                
+    //var card = new builder.ReceiptCard();
+    //card.items = allTransactions;
+    var sendingString = ("Your transactions on %s are: %s",date1, JSON.stringify(allTransactions)); 
+    
+    
+    console.log(sendingString);
+    session.send(sendingString);
+    
     
 }
