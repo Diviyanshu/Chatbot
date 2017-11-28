@@ -28,23 +28,9 @@ exports.startDialog = function (bot) {
     bot.dialog('GetBalance', [
         function (session, args, next) {
             session.dialogData.args = args || {};        
-            if (!session.conversationData["date"]) {
-                builder.Prompts.text(session, "Enter a date to setup your account.");                
-            } else {
-                next(); // Skip if we already have this info.
-            }
+            session.send("Retrieving balance");
+            getb.displaybalance(session);
         },
-        function (session, results, next) {
-            //if (!isAttachment(session)) {
-
-                if (results.response) {
-                    session.conversationData["date"] = results.response;
-                }
-
-                session.send("Retrieving data");
-                getb.displaybalance(session, session.conversationData["date"]);  // <---- THIS LINE HERE IS WHAT WE NEED 
-            
-        }
     ]).triggerAction({
         matches: 'GetBalance'
     });
@@ -87,7 +73,17 @@ exports.startDialog = function (bot) {
     });
 
     
-
+    bot.dialog('WelcomeMessage', [
+        function (session, args) {
+            session.dialogData.args = args || {};        
+            session.send("Hi, welcome to Contoso banking , We can help you with your everyday banking activites inclding" + "\n" + "jak");
+            session.send("Hi");
+           
+        },
+       
+    ]).triggerAction({
+        matches: 'WelcomeMessage'
+    });
     
 
 

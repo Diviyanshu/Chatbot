@@ -13,13 +13,13 @@ exports.requestcurrency = function getData(url, session,callback, currency, base
         });
     };
 
-exports.getbalance = function getData(url, session, date, callback){
+exports.getbalance = function getData(url, session, callback){
     request.get(url, {'headers':{'ZUMO-API-VERSION': '2.0.0'}}, function(err,res,body){
         if(err){
             console.log(err);
         }else {
             session.send("true");
-            callback(body, session, date);
+            callback(body, session);
         }
     });
 };
