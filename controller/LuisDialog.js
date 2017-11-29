@@ -21,7 +21,7 @@ exports.startDialog = function (bot) {
     bot.dialog('GetBalance', [
         function (session, args, next) {
             session.dialogData.args = args || {};        
-            session.send("Retrieving balance");
+            
             var checking = builder.EntityRecognizer.findEntity(args.intent.entities, 'checking');
             var savings = builder.EntityRecognizer.findEntity(args.intent.entities, 'saving');
             console.log (checking);
