@@ -25,7 +25,8 @@ function responsefunds(message, session, funds, payee, date) {
         rest.getfunds(url,session, date, payee, function(message,session,date,payee){
             console.log("getfunddd2");
          var   all_payments = JSON.parse(message);
-         console.log("getfunddds");
+         console.log( typeof all_payments[0].date);
+
             for(var i in all_payments) {
     
                 if (all_payments[i].date === date && all_payments[i].payee === payee) {
