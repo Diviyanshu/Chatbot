@@ -22,21 +22,20 @@ function responsefunds(message, session, funds, payee, date) {
         var url  = 'https://BankDivi.azurewebsites.net/tables/UpcomingPayments';
     
         console.log("getfunddd1");
-        rest.getfunds(url,session, date, payee, function(message,session,date,payee){
+        rest.getfunds(url,session, date, payee, function(message,session,date1,payee1){
             console.log("getfunddd2");
          var   all_payments = JSON.parse(message);
-         console.log( typeof all_payments[0].date);
-
+        
+           // var ob1 =  JSON.parse(date);
+            //var ob2 = JSON.parse(payee);
             for(var i in all_payments) {
-    
-                if (all_payments[i].date === date && all_payments[i].payee === payee) {
-    
-                    console.log(all_payments[i]);
-                    console.log("-------------");
+                 if (all_payments[i].date == date1 && all_payments[i].payee == payee1) {
+                    
                     console.log(all_payments[i].id);
                     rest.deletefunds(url,session,payee,date, all_payments[i].id,handleDeletedFoodResponse)
     
                 }
+                
             }
     
     
@@ -46,7 +45,7 @@ function responsefunds(message, session, funds, payee, date) {
     };
 
     function handleDeletedFoodResponse (body,session,payee, date) {
-    session.send("FIN");
+    session.send("Succecfully deleted the payment for %s on %s", payee, date);
 
 
     };
