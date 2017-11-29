@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Contoso Banking limited</title>
+
+    <!--Linking CSS files to style the website-->
+     <link rel="stylesheet" type="text/css" href= "divisStyling.css"/>
+
+
+ <script type="text/javascript">
+        function openChat() {
+            var frame = document.getElementById("chat-frame");
+            frame.className = "";
+            var img = document.getElementById("chat-button");
+            img.className = "hide";
+        }
+
+        function closeChat() {
+            var frame = document.getElementById("chat-frame");
+            frame.className = "hide";
+            var img = document.getElementById("chat-button");
+            img.className = "";
+        }
+    </script>
+     
+</head>
+
+
+  <ul>
+  <li><a class="active" href="#Accouns">Home</a></li>
+  <li><a href="#About Us">About Us</a></li>
+  <li><a href="#Help">Accounts</a></li>
+  <li><a href="#Contact Us">Help</a></li>
+</ul>
+  
+
+
+<div id= "blockSec"> 
+
+    <header>
+    <h1 id = "contosoheading">Contoso Banking            </h1>
+    
+  </header>
+
+  <section id = "logoSection">    <img src="res/images/ContosoLogo.png" height="70" width="400" />  </section>
+ <P id= "mainpara"> Welcome to Contoso banking, As the largest banking institution, we constantly strive to provide the best services to our customers. We offer mortgage  <br> information, foreign exchange rates, loans, insurance, credit cards, accounts, business and investment products to help with your essintial banking needs.  </P>
+ 
+
+</div>
+
+
+<div style="width: 100%; overflow: hidden;">
+    <div id= "left",  style="width: 600px; float: left;"> Left </div>
+    <div id = "right",style="margin-left: 620px;"> Right </div>
+</div>
+<body>
+
+<div id="chat" >
+        <img id="chat-button" src="res/images/ContosoLogo.png" onclick="openChat()" />
+        <div id="chat-frame" class="hide">
+          <iframe src='https://webchat.botframework.com/embed/Divibank?s=1gsya0M7O3M.cwA.0Ao.eWrNYrtoPdYhpLkgTUM1O6-YRbdo-J__hzde9h927DU'></iframe>
+            <img src="res/images/minus.png" onclick="closeChat()" />
+        </div>
+    </div>
+
+
+
+
+
+</body>
+</html>
