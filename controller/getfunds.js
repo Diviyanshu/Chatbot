@@ -21,9 +21,9 @@ function responsefunds(message, session, funds, payee, date) {
     exports.deletepayment = function deletepayment(session,date,payee){
         var url  = 'https://BankDivi.azurewebsites.net/tables/UpcomingPayments';
     
-        console.log("getfunddd1");
+        
         rest.getfunds(url,session, date, payee, function(message,session,date1,payee1){
-            console.log("getfunddd2");
+        
          var   all_payments = JSON.parse(message);
         
            // var ob1 =  JSON.parse(date);

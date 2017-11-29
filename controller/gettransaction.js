@@ -15,7 +15,7 @@ function handleTransactionResponse(message, session, date1) {
 
         //Convert to lower case whilst doing comparison to ensure the user can type whatever they like
         if (date1.toLowerCase() === dateRecived.toLowerCase()) {
-            //Add a comma after all favourite foods unless last one
+            
             if(dateResponse.length - 1) {
                 allTransactions.push(RevicedTransactions);
             }
@@ -25,7 +25,7 @@ function handleTransactionResponse(message, session, date1) {
         }        
     }
     
-    // Print all favourite foods for the user that is currently logged in
+    
     //var card = new builder.ReceiptCard();
     //card.items = allTransactions;
     var sendingString = "";
@@ -37,7 +37,7 @@ function handleTransactionResponse(message, session, date1) {
      
     
     
-    console.log(sendingString);
+    
     session.send(sendingString);
     
     

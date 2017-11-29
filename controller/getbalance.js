@@ -18,7 +18,7 @@ function handlebalanceResponse(message, session, balance) {
     else if (balance.toLowerCase() == "savings")   {  result_balance = balResponse[0].savings;  
         session.send("Divi, your %s balance is: $ %s ", balance, result_balance);
     }
-    else {session.send("neither");}
+    else {session.send("entities not identified, please try again.");}
     
     
        
@@ -27,7 +27,7 @@ function handlebalanceResponse(message, session, balance) {
               
     
     
-    // Print all favourite foods for the user that is currently logged in
+    
                    
     
 }

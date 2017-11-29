@@ -18,7 +18,7 @@ exports.getbalance = function getData(url, session, callback, balance){
         if(err){
             console.log(err);
         }else {
-            session.send("true");
+            
             callback(body, session, balance);
         }
     });
@@ -31,7 +31,7 @@ exports.gettransaction = function getData(url, session, date, callback){
         if(err){
             console.log(err);
         }else {
-            session.send("true");
+          
             callback(body, session, date);
         }
     });
@@ -70,7 +70,7 @@ exports.getfunds = function getData(url, session, date, payee, callback){
         if(err){
             console.log(err);
         }else {
-            session.send("true");
+            //session.send("true");
             callback(body, session, date,payee);
         }
     });

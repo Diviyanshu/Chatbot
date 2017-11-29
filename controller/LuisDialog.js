@@ -5,16 +5,8 @@ var currencyexp = require('./currencycard');
 var getf = require('./getfunds');
 var qna =   require('./QnAMaker');
 
-exports.dialog1 = function (bot) {
-
-    bot.dialog('greetings', 
-    // Step 1
-    function (session) {
-        builder.Prompts.text(session, 'Hi! What is your name?');
-    })
 
 
-}
 
 
 exports.startDialog = function (bot) {
@@ -93,9 +85,24 @@ exports.startDialog = function (bot) {
         function (session, args) {
             session.dialogData.args = args || {};        
             session.send("Hello Divi, welcome to Contoso banking ,We can help you with your daily banking tasks including: \n\n - - - - - - - - - - - - - \n\n  - Checking your account balances \n\n - Transferring funds \n\n  - Getting information on the latest currency rates  "  );
-            //session.send("Hi");
-            //session.send("hello\n\nworld");
            
+           card= ( function createHeroCard(session) {
+                return new builder.HeroCard(session)
+                    .title('BotFramework Hero Card')
+                    .subtitle('Your bots — wherever your users are talking')
+                    .text('Build and connect intelligent bots to interact with your users naturally wherever they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.')
+                    .images([
+                        builder.CardImage.create(session, 'https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg')
+                    ])
+                    .buttons([
+                        builder.CardAction.openUrl(session, 'https://docs.microsoft.com/bot-framework/', 'Get Started')
+                    ]);
+            } )
+
+            var message = new builder.Message(session)
+            .attachmentLayout(builder.AttachmentLayout.carousel)
+            .attachments(card);
+            session.send(message);
         },
        
     ]).triggerAction({
@@ -155,9 +162,8 @@ exports.startDialog = function (bot) {
         
         // Checks if the for entity was found
         if (payee && date) {
-            // Pulls out the food entity from the session if it exists
-      
-            session.send('check1...');
+            
+            
             getf.deletepayment(session,date.entity, payee.entity);
         }
         
@@ -172,7 +178,7 @@ exports.startDialog = function (bot) {
     
 
 
-    bot.dialog('faq', [
+    bot.dialog('Faq', [
         function (session, args, next) {
             session.dialogData.args = args || {};
             builder.Prompts.text(session, "What is your question?");
@@ -181,7 +187,7 @@ exports.startDialog = function (bot) {
             qna.talkToQnA(session, results.response);
         }
     ]).triggerAction({
-        matches: 'faq'
+        matches: 'Faq'
     });
 
     
@@ -190,16 +196,4 @@ exports.startDialog = function (bot) {
 
 }
 
-// Function is called when the user inputs an attachment
-function isAttachment(session) { 
-    var msg = session.message.text;
-    if ((session.message.attachments && session.message.attachments.length > 0) || msg.includes("http")) {
-        
-        //call custom vision here later
-        return true;
-    }
-    else {
-        return false;
-    }
-}
 

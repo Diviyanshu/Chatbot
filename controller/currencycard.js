@@ -1,7 +1,7 @@
 var rest = require('../API/Restclient');
 var builder = require('botbuilder');
 
-//Calls 'getcurrency' in RestClient.js with 'getFoodNutrition' as callback to get ndbno of food
+
 exports.displaycurrency = function getcurrency(session, baseCurrency, currency){
     var url = "https://api.fixer.io/latest?base=" + baseCurrency ;
 
