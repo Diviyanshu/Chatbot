@@ -3,6 +3,7 @@ var getb = require('./getbalance');
 var gett = require('./gettransaction');
 var currencyexp = require('./currencycard');
 var getf = require('./getfunds');
+var qna =   require('./QnAMaker');
 
 exports.dialog1 = function (bot) {
 
@@ -171,7 +172,7 @@ exports.startDialog = function (bot) {
     
 
 
-    bot.dialog('QnA', [
+    bot.dialog('faq', [
         function (session, args, next) {
             session.dialogData.args = args || {};
             builder.Prompts.text(session, "What is your question?");
@@ -180,7 +181,7 @@ exports.startDialog = function (bot) {
             qna.talkToQnA(session, results.response);
         }
     ]).triggerAction({
-        matches: 'QnA'
+        matches: 'faq'
     });
 
     
