@@ -63,3 +63,42 @@ exports.postfunds = function getData(session, url, funds, payee,date, callback){
         }
       });
 };
+
+
+exports.getfunds = function getData(url, session, date, payee, callback){
+    request.get(url, {'headers':{'ZUMO-API-VERSION': '2.0.0'}}, function(err,res,body){
+        if(err){
+            console.log(err);
+        }else {
+            session.send("true");
+            callback(body, session, date,payee);
+        }
+    });
+};
+
+
+
+
+
+
+exports.deletefunds = function deleteData(url,session, payee ,date, id, callback){
+    var options = {
+        url: url + "\\" + id,
+        method: 'DELETE',
+        headers: {
+            'ZUMO-API-VERSION': '2.0.0',
+            'Content-Type':'application/json'
+        }
+    };
+
+    request(options,function (err, res, body){
+        if( !err && res.statusCode === 200){
+            console.log(body);
+            callback(body,session,payee, date);
+        }else {
+            console.log(err);
+            console.log(res);
+        }
+    })
+
+};

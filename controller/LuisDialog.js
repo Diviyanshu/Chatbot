@@ -107,12 +107,12 @@ exports.startDialog = function (bot) {
        
             
             function (session) {
-            session.send("Welcome to the dinner reservation.");
-            builder.Prompts(session, "Please provide a date to schedule the payments: ");
+            
+            builder.Prompts.text(session, "Please provide a date on which to schedule the payments: ");
             },       
             function (session, results) {
                 session.dialogData.date = results.response;
-                builder.Prompts.text(session, "Who's will this payment be for?");
+                builder.Prompts.text(session, "Who will this payment be for?");
             },
 
             function (session, results) {
@@ -120,14 +120,19 @@ exports.startDialog = function (bot) {
         
                 // Process request and display reservation details
                 
-                builder.Prompts.text(session, "how much in payments?");
+                builder.Prompts.text(session, "how much would you like to pay?");
             },
-            function (session, results) {
+
+
+            function (session,results) 
+            
+            
+            { 
                 session.dialogData.funds = results.response;
-                session.send('setting up autmoatic payements...');
-                getf.sendfunds(session,session.dialogData.funds, session.dialogData.payee, session.dialogData.date); // <-- LINE WE WANT
-                session.endDialog();
-            }
+                session.send('setting up automatic payements...');
+            getf.sendfunds(session,session.dialogData.funds, session.dialogData.payee, session.dialogData.date); // <-- LINE WE WANT
+            session.endDialog();
+        }
         ])
             //var funds = builder.EntityRecognizer.findEntity(session.dialogData.args.intent.entities, 'funds');
             //var payee = builder.EntityRecognizer.findEntity(session.dialogData.args.intent.entities, 'payee');
@@ -140,6 +145,32 @@ exports.startDialog = function (bot) {
     .triggerAction({
         matches: 'SetupTransfer'
     });
+
+    
+    
+    bot.dialog('DeleteTransfer', function (session, args) {
+        var payee = builder.EntityRecognizer.findEntity(args.intent.entities, 'payee');
+        var date = builder.EntityRecognizer.findEntity(args.intent.entities, 'date');
+        
+        // Checks if the for entity was found
+        if (payee && date) {
+            // Pulls out the food entity from the session if it exists
+      
+            session.send('check1...');
+            getf.deletepayment(session,date.entity, payee.entity);
+        }
+        
+        else {
+            session.send("No payee identified! Please try again");
+        }
+        
+
+    }).triggerAction({
+        matches: 'DeleteTransfer'
+    });
+    
+
+    
 
 
 
